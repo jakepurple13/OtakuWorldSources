@@ -2,6 +2,7 @@ package com.programmersbox.tachiyomibridge
 
 import android.app.Application
 import androidx.core.content.ContextCompat
+import com.programmersbox.models.ApiService
 import com.programmersbox.models.ExternalApiServicesCatalog
 import com.programmersbox.models.RemoteSources
 import com.programmersbox.models.SourceInformation
@@ -63,10 +64,24 @@ object Tachiyomi : ExternalApiServicesCatalog {
 
     override val hasRemoteSources: Boolean = true
 
-    override fun getSources(): List<SourceInformation> = loader.extensionLoader
-        .loadExtensions()
-        .flatten()
-        .map { it.copy(catalog = this) }
+    override fun getSources(): List<SourceInformation> = listOf(
+        //TODO: Gotta think about this....Not a fan of it...
+        SourceInformation(
+            apiService = object : ApiService {
+                override val baseUrl: String get() = "https://github.com/jakepurple13/OtakuWorldSources"
+                override val serviceName: String get() = "Tachiyomi Bridge"
+            },
+            name = "Tachiyomi Bridge",
+            icon = null,
+            packageName = "com.programmersbox.tachiyomibridge",
+            catalog = this
+        ),
+        *loader.extensionLoader
+            .loadExtensions()
+            .flatten()
+            .map { it.copy(catalog = this) }
+            .toTypedArray()
+    )
 
     override val name: String get() = "Tachiyomi"
 
