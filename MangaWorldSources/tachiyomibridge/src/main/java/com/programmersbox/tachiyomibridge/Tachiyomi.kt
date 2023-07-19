@@ -70,6 +70,7 @@ object Tachiyomi : ExternalApiServicesCatalog {
             apiService = object : ApiService {
                 override val baseUrl: String get() = "https://github.com/jakepurple13/OtakuWorldSources"
                 override val serviceName: String get() = "Tachiyomi Bridge"
+                override val notWorking: Boolean get() = true
             },
             name = "Tachiyomi Bridge",
             icon = null,
