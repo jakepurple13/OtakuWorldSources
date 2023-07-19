@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-feature android:name="programmersbox.otaku.extension.${extSuffix}" />
+
+    <application android:allowBackup="true">
+
+        <meta-data
+            android:name="programmersbox.otaku.class"
+            android:value="${extClass}" />
+        <meta-data
+            android:name="programmersbox.otaku.name"
+            android:value="${extName}" />
+
+    </application>
+
+</manifest>
