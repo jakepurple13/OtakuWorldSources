@@ -37,6 +37,7 @@ jobs:
           java-version: 17
           distribution: adopt
 
+      #Need to change the grep so it can be more than just the bridge
       - name: Get number of modules
         run: |
           set -x
@@ -131,7 +132,7 @@ jobs:
 
       - name: Create repo artifacts
         run: |
-          cd master
+          cd main
           ./.github/scripts/move-apks.sh
           INSPECTOR_LINK="$(curl -s "https://api.github.com/repos/tachiyomiorg/tachiyomi-extensions-inspector/releases/latest" | jq -r '.assets[0].browser_download_url')"
           curl -L "$INSPECTOR_LINK" -o ./Inspector.jar
