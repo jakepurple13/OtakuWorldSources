@@ -52,9 +52,6 @@ for APK in ${APKS[@]}; do
         --arg lang "$LANG" \
         --argjson code $VCODE \
         --arg version "$VNAME" \
-        --argjson nsfw $NSFW \
-        --argjson hasReadme $HASREADME \
-        --argjson hasChangelog $HASCHANGELOG \
         --argjson sources "$SOURCE_INFO" \
         '{name:$name, pkg:$pkg, apk:$apk, lang:$lang, code:$code, version:$version, sources:$sources}'
 
