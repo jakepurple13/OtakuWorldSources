@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+#set -e
 shopt -s globstar nullglob extglob
 
 # Get APKs from previous jobs' artifacts
