@@ -1,5 +1,5 @@
 #!/bin/bash
-#set -e
+set -e
 
 rsync -a --delete --exclude .git --exclude .gitignore ../main/repo/ .
 git config --global user.email "github-actions[bot]@users.noreply.github.com"
