@@ -148,5 +148,4 @@ jobs:
       - name: Deploy repo
         run: |
           cd repo
-          chmod +x ../main/.github/scripts/commit-repo.sh
           ../main/.github/scripts/commit-repo.sh
