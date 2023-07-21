@@ -8,9 +8,9 @@
     "version": "1.0.0",
     "sources": [
       {
-        "name": "Tachiyomi",
+        "name": "Tachiyomi Bridge",
         "lang": "en",
-        "id": "Tachiyomi",
+        "id": "Tachiyomi Bridge",
         "baseUrl": "https://github.com/jakepurple13/OtakuWorldSources",
         "versionId": 1,
         "hasCloudflare": 1
