@@ -1,7 +1,9 @@
 package plugins
 
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
+import com.android.build.gradle.internal.dsl.SigningConfig
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.findByType
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -15,6 +17,14 @@ class AndroidSourcePlugin : AndroidPluginBase<BaseAppModuleExtension>(BaseAppMod
             SourceInformation::class.java,
             target
         )
+
+        target.extensions.findByType(SigningConfig::class)
+            ?.apply {
+                storeFile(target.rootProject.file("signingkey.jks"))
+                storePassword(System.getenv("KEY_STORE_PASSWORD"))
+                keyAlias(System.getenv("ALIAS"))
+                keyPassword(System.getenv("KEY_PASSWORD"))
+            }
     }
 
     override fun Project.projectSetup() {
