@@ -1,6 +1,6 @@
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
-    id("com.android.application")
+    id("com.android.library")
     kotlin("android")
 }
 
@@ -9,7 +9,6 @@ android {
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.programmersbox.otakuworldsources"
         minSdk = 24
     }
 

@@ -10,6 +10,8 @@ cp -f apk/* repo/apk
 
 cd repo
 
+ls -a ../apk/
+
 APKS=( ../apk/*".apk" )
 
 for APK in ${APKS[@]}; do
