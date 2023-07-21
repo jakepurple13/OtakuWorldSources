@@ -24,13 +24,13 @@ for APK in ${APKS[@]}; do
     APPLICATION=$(echo "$BADGING" | grep application:)
     LABEL=$(echo $APPLICATION | grep -Po "label='\K[^']+")
 
-    LANG=$(echo $APK | grep -Po "tachiyomi-\K[^\.]+")
+    LANG=$(echo $APK | grep -Po "otakuworld-\K[^\.]+")
 
-    ICON=$(echo "$BADGING" | grep -Po "application-icon-320.*'\K[^']+")
-    unzip -p $APK $ICON > icon/${PKGNAME}.png
+    #ICON=$(echo "$BADGING" | grep -Po "application-icon-320.*'\K[^']+")
+    #unzip -p $APK $ICON > icon/${PKGNAME}.png
 
     # TODO: legacy icons; remove after a while
-    cp icon/${PKGNAME}.png icon/${FILENAME%.*}.png
+    #cp icon/${PKGNAME}.png icon/${FILENAME%.*}.png
 
     SOURCE_INFO=$(jq ".[\"$PKGNAME\"]" < ../output.json)
 
