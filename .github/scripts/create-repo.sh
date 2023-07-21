@@ -13,10 +13,9 @@ cd repo
 APKS=( ../apk/*".apk" )
 
 for APK in ${APKS[@]}; do
+    echo $APK
     FILENAME=$(basename ${APK})
     BADGING="$(${TOOLS}/aapt dump --include-meta-data badging $APK)"
-
-    echo BADGING
 
     PACKAGE=$(echo "$BADGING" | grep package:)
     PKGNAME=$(echo $PACKAGE | grep -Po "package: name='\K[^']+")

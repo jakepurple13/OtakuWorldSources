@@ -8,4 +8,17 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-serialization:${libs.versions.kotlin.get()}")
     }
 }
+
+task("getSources") {
+    subprojects
+        .filter {
+
+            it.pluginManager.hasPlugin("otaku-source-application")
+            /*it.afterEvaluate {
+                it.plugins.hasPlugin("otaku-source-application")
+            }*/
+        }
+        .forEach { println(it.name) }
+}
+
 true // Needed to make the Suppress annotation work for the plugins block
