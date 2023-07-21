@@ -1,13 +1,16 @@
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
-    id("otaku-source-application")
+    id("com.android.application")
+    kotlin("android")
 }
 
 android {
     namespace = "com.programmersbox.otakuworldsources"
+    compileSdk = 33
 
     defaultConfig {
         applicationId = "com.programmersbox.otakuworldsources"
+        minSdk = 24
     }
 
     buildTypes {
