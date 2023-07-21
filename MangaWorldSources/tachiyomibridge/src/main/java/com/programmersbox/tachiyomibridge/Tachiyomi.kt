@@ -84,7 +84,7 @@ object Tachiyomi : ExternalApiServicesCatalog {
             .toTypedArray()
     )
 
-    override val name: String get() = "Tachiyomi"
+    override val name: String get() = "Tachiyomi Bridge"
 
     override suspend fun getRemoteSources(): List<RemoteSources> = Network.remoteSources().map {
         RemoteSources(
