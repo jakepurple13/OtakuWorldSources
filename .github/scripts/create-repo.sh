@@ -16,7 +16,7 @@ for APK in ${APKS[@]}; do
     FILENAME=$(basename ${APK})
     BADGING="$(${TOOLS}/aapt dump --include-meta-data badging $APK)"
 
-    echo "$BADGING"
+    echo BADGING
 
     PACKAGE=$(echo "$BADGING" | grep package:)
     PKGNAME=$(echo $PACKAGE | grep -Po "package: name='\K[^']+")
