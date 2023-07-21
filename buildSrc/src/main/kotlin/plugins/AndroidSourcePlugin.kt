@@ -1,13 +1,12 @@
 package plugins
 
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
-import com.android.build.gradle.internal.dsl.SigningConfig
 import org.gradle.api.Project
-import org.gradle.kotlin.dsl.findByType
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
-class AndroidSourcePlugin : AndroidPluginBase<BaseAppModuleExtension>(BaseAppModuleExtension::class) {
+class AndroidSourcePlugin :
+    AndroidPluginBase<BaseAppModuleExtension>(BaseAppModuleExtension::class) {
 
     override fun apply(target: Project) {
         super.apply(target)
@@ -17,21 +16,22 @@ class AndroidSourcePlugin : AndroidPluginBase<BaseAppModuleExtension>(BaseAppMod
             SourceInformation::class.java,
             target
         )
-
-        target.extensions.findByType(SigningConfig::class)
-            ?.apply {
-                storeFile(target.rootProject.file("signingkey.jks"))
-                storePassword(System.getenv("KEY_STORE_PASSWORD"))
-                keyAlias(System.getenv("ALIAS"))
-                keyPassword(System.getenv("KEY_PASSWORD"))
-            }
     }
 
     override fun Project.projectSetup() {
         pluginManager.apply("com.android.application")
     }
 
-    override fun BaseAppModuleExtension.androidConfig(project: Project) {}
+    override fun BaseAppModuleExtension.androidConfig(project: Project) {
+        signingConfigs {
+            maybeCreate("release").apply {
+                storeFile = project.rootProject.file("signingkey.jks")
+                storePassword = System.getenv("KEY_STORE_PASSWORD")
+                keyAlias = System.getenv("ALIAS")
+                keyPassword = System.getenv("KEY_PASSWORD")
+            }
+        }
+    }
 }
 
 abstract class SourceInformation @Inject constructor(private val project: Project) {
