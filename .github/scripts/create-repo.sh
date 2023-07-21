@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+#set -e
 
 TOOLS="$(ls -d ${ANDROID_HOME}/build-tools/* | tail -1)"
 
@@ -15,7 +15,6 @@ APKS=( ../apk/*".apk" )
 for APK in ${APKS[@]}; do
 
     FILENAME=$(basename ${APK})
-    echo $APK
     BADGING="$(${TOOLS}/aapt dump --include-meta-data badging $APK)"
 
     PACKAGE=$(echo "$BADGING" | grep package:)
