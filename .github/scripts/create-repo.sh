@@ -13,7 +13,7 @@ cd repo
 APKS=( ../apk/*".apk" )
 
 for APK in ${APKS[@]}; do
-    echo $APK
+
     FILENAME=$(basename ${APK})
     BADGING="$(${TOOLS}/aapt dump --include-meta-data badging $APK)"
 
@@ -25,7 +25,7 @@ for APK in ${APKS[@]}; do
     APPLICATION=$(echo "$BADGING" | grep application:)
     LABEL=$(echo $APPLICATION | grep -Po "label='\K[^']+")
 
-    LANG=$(echo $APK | grep -Po "otakuworld-\K[^\.]+")
+    LANG="en"#$(echo $APK | grep -Po "otakuworld-\K[^\.]+")
 
     #ICON=$(echo "$BADGING" | grep -Po "application-icon-320.*'\K[^']+")
     #unzip -p $APK $ICON > icon/${PKGNAME}.png
