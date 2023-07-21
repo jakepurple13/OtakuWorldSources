@@ -24,11 +24,21 @@ class AndroidSourcePlugin :
 
     override fun BaseAppModuleExtension.androidConfig(project: Project) {
         signingConfigs {
-            maybeCreate("release").apply {
+            create("release").apply {
                 storeFile = project.rootProject.file("signingkey.jks")
                 storePassword = System.getenv("KEY_STORE_PASSWORD")
                 keyAlias = System.getenv("ALIAS")
                 keyPassword = System.getenv("KEY_PASSWORD")
+            }
+        }
+        buildTypes {
+            release {
+                signingConfig = signingConfigs.getByName("release")
+                isMinifyEnabled = false
+                proguardFiles(
+                    getDefaultProguardFile("proguard-android-optimize.txt"),
+                    "proguard-rules.pro"
+                )
             }
         }
     }
