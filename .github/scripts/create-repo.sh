@@ -10,13 +10,12 @@ cp -f apk/* repo/apk
 
 cd repo
 
-ls -a ../apk/
-
 APKS=( ../apk/*".apk" )
 
 for APK in ${APKS[@]}; do
 
     FILENAME=$(basename ${APK})
+    echo $APK
     BADGING="$(${TOOLS}/aapt dump --include-meta-data badging $APK)"
 
     PACKAGE=$(echo "$BADGING" | grep package:)
