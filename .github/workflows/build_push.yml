@@ -137,7 +137,8 @@ jobs:
           ./.github/scripts/move-apks.sh
           INSPECTOR_LINK="$(curl -s "https://api.github.com/repos/jakepurple13/tachiyomi-extensions-inspector/releases/latest" | jq -r '.assets[0].browser_download_url')"
           curl -L "$INSPECTOR_LINK" -o ./Inspector.jar
-          chmod a+x ./Inspector.jar
+          sudo -i
+          chmod +x ./Inspector.jar
           java -jar ./Inspector.jar "apk" "output.json" "tmp"
           chmod +x ./.github/scripts/create-repo.sh
           ./.github/scripts/create-repo.sh
