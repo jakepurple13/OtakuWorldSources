@@ -94,7 +94,7 @@ object Tachiyomi : ExternalApiServicesCatalog {
             sources = it.sources
                 ?.map { j ->
                     Sources(
-                        name = j.name,
+                        name = "${j.name} - ${j.lang}",
                         baseUrl = j.baseUrl,
                         version = it.version
                     )
