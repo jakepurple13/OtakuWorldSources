@@ -10,7 +10,7 @@ android {
     namespace = "com.programmersbox.tachiyomibridge"
 
     defaultConfig {
-        versionName = "1.0.1"
+        versionName = "1.0.2"
     }
 
     compileOptions {

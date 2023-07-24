@@ -133,7 +133,13 @@ class SourceLoader : KoinComponent {
                 }
 
                 override suspend fun itemInfo(model: ItemModel): InfoModel {
-                    val f = model.otherExtras.retrieveSMana()
+                    val f = model.otherExtras.retrieveSMana().apply {
+                        if (url.isBlank() || url == "null") url = model.url
+                        if (title.isBlank() || title == "null") title = model.title
+                        if (description.isNullOrBlank() || title == "null") description =
+                            model.description
+                        if (thumbnail_url.isNullOrBlank()) thumbnail_url = model.imageUrl
+                    }
                     val s = t.getMangaDetails(f)
                     return InfoModel(
                         title = model.title,
