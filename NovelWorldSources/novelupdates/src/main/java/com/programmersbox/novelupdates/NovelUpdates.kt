@@ -19,9 +19,10 @@ class NovelUpdates : ApiService {
     override val baseUrl: String get() = "https://www.novelupdates.com"
     override val canScroll: Boolean get() = true
     override val serviceName: String get() = "NOVEL_UPDATES"
-    private val client = HttpClient(OkHttp) {
-        install(JsoupPlugin)
-    }
+    private val client
+        get() = HttpClient(OkHttp) {
+            install(JsoupPlugin)
+        }
 
     override suspend fun recent(page: Int): List<ItemModel> {
         val f = client.get("$baseUrl/series-ranking/?rank=week&pg=$page")
