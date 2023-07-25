@@ -5,8 +5,10 @@ import com.programmersbox.models.ChapterModel
 import com.programmersbox.models.InfoModel
 import com.programmersbox.models.ItemModel
 import com.programmersbox.models.Storage
+import com.tfowl.ktor.client.features.JsoupPlugin
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.engine.cio.CIO
 import io.ktor.client.request.forms.submitForm
 import io.ktor.client.request.get
 import io.ktor.http.Parameters
@@ -17,7 +19,9 @@ class NovelUpdates : ApiService {
     override val baseUrl: String get() = "https://www.novelupdates.com"
     override val canScroll: Boolean get() = true
     override val serviceName: String get() = "NOVEL_UPDATES"
-    private val client = HttpClient()
+    private val client = HttpClient(CIO) {
+        install(JsoupPlugin)
+    }
 
     override suspend fun recent(page: Int): List<ItemModel> {
         val f = client.get("$baseUrl/series-ranking/?rank=week&pg=$page")
