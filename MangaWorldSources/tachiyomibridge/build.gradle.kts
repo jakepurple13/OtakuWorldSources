@@ -38,9 +38,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    implementation(projects.mangaWorldSources)
     implementation(projects.mangaWorldSources.tachiyomibridge.coreTachi)
-    implementation(projects.core)
     val ktorVersion = "2.3.2"
     implementation("io.ktor:ktor-client-core:$ktorVersion")
     implementation("io.ktor:ktor-client-cio:$ktorVersion")
