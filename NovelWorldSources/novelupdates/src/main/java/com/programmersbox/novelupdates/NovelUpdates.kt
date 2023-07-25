@@ -8,7 +8,7 @@ import com.programmersbox.models.Storage
 import com.tfowl.ktor.client.features.JsoupPlugin
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import io.ktor.client.engine.cio.CIO
+import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.request.forms.submitForm
 import io.ktor.client.request.get
 import io.ktor.http.Parameters
@@ -19,7 +19,7 @@ class NovelUpdates : ApiService {
     override val baseUrl: String get() = "https://www.novelupdates.com"
     override val canScroll: Boolean get() = true
     override val serviceName: String get() = "NOVEL_UPDATES"
-    private val client = HttpClient(CIO) {
+    private val client = HttpClient(OkHttp) {
         install(JsoupPlugin)
     }
 
