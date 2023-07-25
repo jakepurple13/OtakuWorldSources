@@ -12,7 +12,7 @@ import io.ktor.client.request.get
 import io.ktor.http.Parameters
 import org.jsoup.nodes.Document
 
-object NovelUpdates : ApiService {
+class NovelUpdates : ApiService {
     override val canDownload: Boolean get() = false
     override val baseUrl: String get() = "https://www.novelupdates.com"
     override val canScroll: Boolean get() = true
