@@ -31,6 +31,8 @@ appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "a
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 gradle = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 
+kotlinStLib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+
 extensionsLib = { module = "com.github.tachiyomiorg:extensions-lib", version.ref = "extensions-lib" }
 injekt-core = { module = "com.github.inorichi.injekt:injekt-core", version.ref = "injekt-core" }
 androidx-webkit = { group = "androidx.webkit", name = "webkit", version.ref = "webkit" }

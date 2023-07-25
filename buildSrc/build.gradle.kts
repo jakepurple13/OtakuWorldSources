@@ -22,4 +22,6 @@ gradlePlugin {
 dependencies {
     implementation(gradleApi())
     implementation(libs.gradle)
+    implementation(libs.kotlinStLib)
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:${libs.versions.kotlin.get()}")
 }

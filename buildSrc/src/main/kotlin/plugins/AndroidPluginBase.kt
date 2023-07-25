@@ -7,6 +7,8 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.findByType
+import org.gradle.kotlin.dsl.withType
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import kotlin.reflect.KClass
 
 abstract class AndroidPluginBase<T: BaseExtension>(
@@ -19,7 +21,7 @@ abstract class AndroidPluginBase<T: BaseExtension>(
     override fun apply(target: Project) {
         target.projectSetup()
         target.pluginManager.apply("kotlin-android")
-        //target.tasks.withType<KotlinCompile> { kotlinOptions { jvmTarget = "1.8" } }
+        target.tasks.withType<KotlinCompile> { kotlinOptions { jvmTarget = "1.8" } }
         target.configureAndroidBase()
     }
 
