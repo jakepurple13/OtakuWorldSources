@@ -1,0 +1,12 @@
+[
+  {
+    "name": "Tachiyomi Bridge",
+    "pkg": "com.programmersbox.tachiyomibridge",
+    "apk": "tachiyomibridge.apk",
+    "lang": "en#",
+    "code": 1,
+    "version": "1.0.3",
+    "feature": "",
+    "sources": null
+  }
+]
