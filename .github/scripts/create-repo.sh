@@ -18,8 +18,7 @@ for APK in ${APKS[@]}; do
     FILENAME=$(basename ${APK})
     BADGING="$(${TOOLS}/aapt dump --include-meta-data badging $APK)"
 
-    #FEATURE=$(echo "$BADGING" | grep -oE "uses-feature: name=\'programmersbox\.otaku\.extension\.(.*?)'")
-    FEATURE=$(echo "$BADGING" | grep -PoE "uses-feature: name=\'programmersbox\.otaku\.extension\.[^']*'" | rev | cut -d '.' -f 1 | rev | sed "s/'$//")
+    FEATURE=$(echo "$BADGING" | grep -oG "uses-feature: name=\'programmersbox\.otaku\.extension\.[^']*'" | rev | cut -d '.' -f 1 | rev | sed "s/'$//")
 
     PACKAGE=$(echo "$BADGING" | grep package:)
     PKGNAME=$(echo $PACKAGE | grep -Po "package: name='\K[^']+")
