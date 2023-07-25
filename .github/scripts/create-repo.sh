@@ -12,7 +12,11 @@ cd repo
 
 APKS=( ../apk/*".apk" )
 
+echo "Creating Repo! Please wait..."
+
 for APK in ${APKS[@]}; do
+
+    echo $APK
 
     FILENAME=$(basename ${APK})
     BADGING="$(${TOOLS}/aapt dump --include-meta-data badging $APK)"
