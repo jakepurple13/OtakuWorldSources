@@ -3,7 +3,9 @@
 
     <uses-feature android:name="programmersbox.otaku.extension.${extSuffix}" />
 
-    <application android:allowBackup="true">
+    <application
+        android:allowBackup="true"
+        android:label="${extName}">
 
         <meta-data
             android:name="programmersbox.otaku.class"
