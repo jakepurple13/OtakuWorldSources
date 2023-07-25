@@ -17,6 +17,7 @@ for APK in ${APKS[@]}; do
     FILENAME=$(basename ${APK})
     BADGING="$(${TOOLS}/aapt dump --include-meta-data badging $APK)"
 
+    FEATURE=$(echo "$BADGING" | grep "uses-feature: name='programmersbox.otaku.extension.")
     PACKAGE=$(echo "$BADGING" | grep package:)
     PKGNAME=$(echo $PACKAGE | grep -Po "package: name='\K[^']+")
     VCODE=$(echo $PACKAGE | grep -Po "versionCode='\K[^']+")
@@ -53,8 +54,9 @@ for APK in ${APKS[@]}; do
         --arg lang "$LANG" \
         --argjson code $VCODE \
         --arg version "$VNAME" \
+        --arg feature "$FEATURE" \
         --argjson sources "$SOURCE_INFO" \
-        '{name:$name, pkg:$pkg, apk:$apk, lang:$lang, code:$code, version:$version, sources:$sources}'
+        '{name:$name, pkg:$pkg, apk:$apk, lang:$lang, code:$code, version:$version, feature:$feature, sources:$sources}'
 
 done | jq -sr '[.[]]' > index.json
 
