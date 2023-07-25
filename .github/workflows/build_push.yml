@@ -41,9 +41,9 @@ jobs:
       - name: Get number of modules
         run: |
           set -x
-          ./gradlew -q projects | grep ':MangaWorldSources:tachiyomibridge.$' > projects.txt
+          ./gradlew :getSources | grep -E "Otaku Application Source: (.*?)" > projects.txt
           
-          echo "NUM_INDIVIDUAL_MODULES=$(cat projects.txt | grep ':MangaWorldSources:tachiyomibridge.$' | wc -l)" >> $GITHUB_ENV
+          echo "NUM_INDIVIDUAL_MODULES=$(cat projects.txt | grep -E "Otaku Application Source: (.*?)" | wc -l)" >> $GITHUB_ENV
           echo "NUM_MULTISRC_MODULES=$(cat projects.txt | grep '.*\:multisrc\:.*' | wc -l)" >> $GITHUB_ENV
 
       - id: generate-matrices
