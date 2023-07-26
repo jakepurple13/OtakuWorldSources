@@ -1,7 +1,10 @@
 package plugins
 
+import com.android.build.api.variant.AndroidComponentsExtension
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.findByType
+import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -41,11 +44,21 @@ class AndroidSourcePlugin :
                 )
             }
         }
+
+        @Suppress("UnstableApiUsage")
+        project.extensions.findByType(AndroidComponentsExtension::class)?.finalizeDsl {
+            val version = defaultConfig.versionName
+            val type = it.defaultConfig.manifestPlaceholders["extSuffix"]
+            val name = it.defaultConfig.manifestPlaceholders["extName"]
+                .toString()
+                .lowercase()
+            project.archivesName.set("${type}world-$name-v$version".replace(" ", "-"))
+        }
     }
 }
 
 abstract class SourceInformation @Inject constructor(private val project: Project) {
-    internal val source = SourceInfo()
+    private val source = SourceInfo()
 
     var name: String
         get() = source.metadataName
