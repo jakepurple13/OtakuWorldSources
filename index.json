@@ -1,5 +1,24 @@
 [
   {
+    "name": "MangaPark",
+    "pkg": "com.programmersbox.mangapark",
+    "apk": "mangapark.apk",
+    "lang": "en",
+    "code": 1,
+    "version": "1.0.0",
+    "feature": "manga",
+    "sources": [
+      {
+        "name": "MANGA_PARK",
+        "lang": "en",
+        "id": "MANGA_PARK",
+        "baseUrl": "https://mangapark.net",
+        "versionId": 1,
+        "hasCloudflare": 1
+      }
+    ]
+  },
+  {
     "name": "Manga Read",
     "pkg": "com.programmersbox.mangaread",
     "apk": "mangaread.apk",
