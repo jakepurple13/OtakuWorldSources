@@ -1,5 +1,24 @@
 [
   {
+    "name": "Manga Read",
+    "pkg": "com.programmersbox.mangaread",
+    "apk": "mangaread.apk",
+    "lang": "en",
+    "code": 1,
+    "version": "1.0.0",
+    "feature": "manga",
+    "sources": [
+      {
+        "name": "MANGA_READ",
+        "lang": "en",
+        "id": "MANGA_READ",
+        "baseUrl": "https://www.mangaread.org",
+        "versionId": 1,
+        "hasCloudflare": 1
+      }
+    ]
+  },
+  {
     "name": "NovelUpdates",
     "pkg": "com.programmersbox.novelupdates",
     "apk": "novelupdates.apk",
