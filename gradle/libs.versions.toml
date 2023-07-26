@@ -19,6 +19,8 @@ sqldelight = "1.5.5"
 
 ziplineVersion = "1.1.0"
 
+jakepurple13Version = "10.6.5"
+
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
@@ -88,6 +90,10 @@ sqldelight-android-paging = { module = "com.squareup.sqldelight:android-paging3-
 sqldelight-gradle = { module = "com.squareup.sqldelight:gradle-plugin", version.ref = "sqldelight" }
 
 logcat = "com.squareup.logcat:logcat:0.1"
+
+jakepurple13-gson = { module = "com.github.jakepurple13.HelpfulTools:gsonutils", version.ref = "jakepurple13Version" }
+
+kotson = "com.github.salomonbrys.kotson:kotson:2.5.0"
 
 [bundles]
 reactivex = ["rxandroid", "rxjava"]
