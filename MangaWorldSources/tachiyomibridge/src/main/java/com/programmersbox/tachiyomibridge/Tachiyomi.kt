@@ -89,6 +89,8 @@ object Tachiyomi : ExternalApiServicesCatalog {
     override suspend fun getRemoteSources(): List<RemoteSources> = Network.remoteSources().map {
         RemoteSources(
             name = it.name,
+            packageName = it.pkg,
+            version = it.version,
             iconUrl = "${REPO_URL_PREFIX}icon/${it.pkg}.png",
             downloadLink = "${REPO_URL_PREFIX}apk/${it.apk}",
             sources = it.sources

@@ -168,6 +168,8 @@ interface ExternalApiServicesCatalog : ApiServicesCatalog {
 
 data class RemoteSources(
     val name: String,
+    val packageName: String,
+    val version: String,
     val iconUrl: String,
     val downloadLink: String,
     val sources: List<Sources>
