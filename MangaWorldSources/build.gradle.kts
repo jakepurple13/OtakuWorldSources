@@ -9,7 +9,7 @@ android {
     compileSdk = AppInfo.compileVersion
 
     defaultConfig {
-
+        minSdk = 24
     }
 
     buildTypes {
@@ -38,4 +38,8 @@ dependencies {
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation(projects.core)
+    implementation(libs.jsoup)
+    implementation(libs.bundles.okHttpLibs)
+    implementation(libs.koinAndroid)
+    implementation(libs.androidx.webkit)
 }

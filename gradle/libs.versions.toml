@@ -89,3 +89,5 @@ reactivex = ["rxandroid", "rxjava"]
 okhttp = ["okhttp-core", "okhttp-logging", "okhttp-dnsoverhttps"]
 js-engine = ["quickjs-android"]
 sqlite = ["sqlite-framework", "sqlite-ktx", "sqlite-android"]
+
+okHttpLibs = ["okhttp-core", "okhttp-dnsoverhttps"]
