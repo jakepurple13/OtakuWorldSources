@@ -25,12 +25,39 @@ rootProject.name = "OtakuWorldSources"
 include(":app")
 include(":MangaWorldSources")
 include(":core")
-include(":MangaWorldSources:tachiyomibridge")
 include(":MangaWorldSources:tachiyomibridge:source-api")
 include(":MangaWorldSources:tachiyomibridge:core_tachi")
 include(":MangaWorldSources:tachiyomibridge:i18n")
 include(":NovelWorldSources")
-include(":NovelWorldSources:novelupdates")
-include(":MangaWorldSources:mangaread")
-include(":MangaWorldSources:mangapark")
-include(":MangaWorldSources:mangafourlife")
+/*include(
+    ":MangaWorldSources:tachiyomibridge",
+    ":NovelWorldSources:novelupdates",
+    ":MangaWorldSources:mangaread",
+    ":MangaWorldSources:mangapark",
+    ":MangaWorldSources:mangafourlife"
+)*/
+
+if (System.getenv("CI") == null || System.getenv("CI_MODULE_GEN") == "true") {
+    // Local development (full project build)
+    rootProject.projectDir
+        .walkTopDown()
+        .filter { it.isFile && it.extension == "kts" }
+        .filter { it.readText().contains("id(\"otaku-source-application\")") }
+        .forEach { include(":${it.parentFile?.parentFile?.name}:${it.parentFile?.name}") }
+} else {
+    // Running in CI (GitHub Actions)
+    val chunkSize = System.getenv("CI_CHUNK_SIZE").toInt()
+    val chunk = System.getenv("CI_CHUNK_NUM").toInt()
+
+    // Loads individual extensions
+    rootProject.projectDir
+        .walkTopDown()
+        .filter { it.isFile && it.extension == "kts" }
+        .filter { it.readText().contains("id(\"otaku-source-application\")") }
+        .chunked(chunkSize)
+        .toList()[chunk]
+        .forEach {
+            println("Including: $it")
+            include(":${it.parentFile?.parentFile?.name}:${it.parentFile?.name}")
+        }
+}
