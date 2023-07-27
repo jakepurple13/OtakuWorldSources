@@ -1,6 +1,7 @@
 package com.programmersbox.tachiyomibridge
 
 import android.app.Application
+import android.content.pm.PackageInfo
 import androidx.core.content.ContextCompat
 import com.programmersbox.models.ApiService
 import com.programmersbox.models.ExternalApiServicesCatalog
@@ -85,6 +86,10 @@ object Tachiyomi : ExternalApiServicesCatalog {
     )
 
     override val name: String get() = "Tachiyomi Bridge"
+
+    override fun shouldReload(packageName: String, packageInfo: PackageInfo): Boolean {
+        return packageInfo.reqFeatures?.any { it.name == "tachiyomi.extension" } == true
+    }
 
     override suspend fun getRemoteSources(): List<RemoteSources> = Network.remoteSources().map {
         RemoteSources(
