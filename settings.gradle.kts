@@ -39,11 +39,20 @@ include(":NovelWorldSources")
 
 if (System.getenv("CI") == null || System.getenv("CI_MODULE_GEN") == "true") {
     // Local development (full project build)
+    /*rootProject.projectDir
+        .walkTopDown()
+        .filter { it.isFile && it.extension == "kts" }
+        .filter { it.readText().contains("id(\"otaku-source-application\")") }
+        .forEach { include(":${it.parentFile?.parentFile?.name}:${it.parentFile?.name}") }*/
+
     rootProject.projectDir
         .walkTopDown()
         .filter { it.isFile && it.extension == "kts" }
         .filter { it.readText().contains("id(\"otaku-source-application\")") }
-        .forEach { include(":${it.parentFile?.parentFile?.name}:${it.parentFile?.name}") }
+        .map {
+            it.getTopParent(rootProject.projectDir, emptyList()).joinToString(":") { f -> f.name }
+        }
+        .forEach { include(":$it") }
 } else {
     // Running in CI (GitHub Actions)
     val chunkSize = System.getenv("CI_CHUNK_SIZE").toInt()
@@ -56,8 +65,18 @@ if (System.getenv("CI") == null || System.getenv("CI_MODULE_GEN") == "true") {
         .filter { it.readText().contains("id(\"otaku-source-application\")") }
         .chunked(chunkSize)
         .toList()[chunk]
+        .map {
+            it.getTopParent(rootProject.projectDir, emptyList()).joinToString(":") { f -> f.name }
+        }
         .forEach {
             println("Including: $it")
-            include(":${it.parentFile?.parentFile?.name}:${it.parentFile?.name}")
+            include(":$it")
         }
 }
+
+tailrec fun File.getTopParent(rootDir: File, fileList: List<File>): List<File> =
+    if (parentFile == null || parentFile == rootDir) {
+        fileList
+    } else {
+        parentFile.getTopParent(rootDir, listOf(parentFile, *fileList.toTypedArray()))
+    }
