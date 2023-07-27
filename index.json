@@ -59,21 +59,12 @@
   {
     "name": "Tachiyomi Bridge",
     "pkg": "com.programmersbox.tachiyomibridge",
-    "apk": "mangaworld-tachiyomi-bridge-v1.0.3.apk",
-    "lang": "en",
+    "apk": "mangaworld-tachiyomi-bridge-v1.0.4.apk",
+    "lang": "en#",
     "code": 1,
-    "version": "1.0.3",
+    "version": "1.0.4",
     "feature": "manga",
-    "sources": [
-      {
-        "name": "Tachiyomi Bridge",
-        "lang": "en",
-        "id": "Tachiyomi Bridge",
-        "baseUrl": "https://github.com/jakepurple13/OtakuWorldSources",
-        "versionId": 1,
-        "hasCloudflare": 1
-      }
-    ]
+    "sources": null
   },
   {
     "name": "NovelUpdates",
