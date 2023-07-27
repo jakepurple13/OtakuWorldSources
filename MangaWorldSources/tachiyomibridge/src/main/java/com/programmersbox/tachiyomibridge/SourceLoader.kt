@@ -6,6 +6,7 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
+import android.text.format.DateFormat
 import com.programmersbox.models.ApiService
 import com.programmersbox.models.ChapterModel
 import com.programmersbox.models.InfoModel
@@ -22,9 +23,16 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class SourceLoader : KoinComponent {
     private val context: Context by inject()
+
+    private val systemDateTimeFormat = SimpleDateFormat(
+        "${(DateFormat.getDateFormat(context) as SimpleDateFormat).toLocalizedPattern()} ${(DateFormat.getTimeFormat(context) as SimpleDateFormat).toLocalizedPattern()}",
+        Locale.getDefault()
+    )
 
     val extensionLoader = ExtensionLoader2<Any, List<SourceInformation>>(
         context,
@@ -150,7 +158,11 @@ class SourceLoader : KoinComponent {
                             ChapterModel(
                                 name = it.name,
                                 url = it.url,
-                                uploaded = it.date_upload.toString(),
+                                uploaded = runCatching { systemDateTimeFormat.format(it.date_upload) }
+                                    .fold(
+                                        onSuccess = { d -> d },
+                                        onFailure = { _ -> it.date_upload.toString() }
+                                    ),
                                 sourceUrl = model.url,
                                 source = this
                             ).also { item -> item.otherExtras.storeSChapter(it) }
