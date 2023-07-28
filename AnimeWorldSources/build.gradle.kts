@@ -6,13 +6,10 @@ plugins {
 
 android {
     namespace = "com.programmersbox.animeworldsources"
-    compileSdk = 33
+    compileSdk = AppInfo.compileVersion
 
     defaultConfig {
         minSdk = 24
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
     }
 
     buildTypes {
