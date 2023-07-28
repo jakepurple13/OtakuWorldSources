@@ -1,5 +1,15 @@
 [
   {
+    "name": "Kawaiifu",
+    "pkg": "com.programmersbox.kawaiifu",
+    "apk": "animeworld-kawaiifu-v1.0.0.apk",
+    "lang": "en#",
+    "code": 1,
+    "version": "1.0.0",
+    "feature": "anime",
+    "sources": null
+  },
+  {
     "name": "Manga Read",
     "pkg": "com.programmersbox.mangaread",
     "apk": "mangaworld-manga-read-v1.0.0.apk",
