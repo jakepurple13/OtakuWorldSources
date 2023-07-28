@@ -19,9 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       individualMatrix: ${{ steps.generate-matrices.outputs.individualMatrix }}
-      multisrcMatrix: ${{ steps.generate-matrices.outputs.multisrcMatrix }}
       isIndividualChanged: ${{ steps.parse-changed-files.outputs.isIndividualChanged }}
-      isMultisrcChanged: ${{ steps.parse-changed-files.outputs.isMultisrcChanged }}
     env:
       CI_MODULE_GEN: true
     steps:
@@ -63,12 +61,6 @@ jobs:
           done
           echo "isIndividualChanged=$isIndividualChanged" >> $GITHUB_OUTPUT
           echo "isMultisrcChanged=$isMultisrcChanged" >> $GITHUB_OUTPUT
-
-      - name: Generate multisrc sources
-        if: ${{ steps.parse-changed-files.outputs.isMultisrcChanged == '1' }}
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: :multisrc:generateExtensions
 
       - name: Get number of modules
         run: |
