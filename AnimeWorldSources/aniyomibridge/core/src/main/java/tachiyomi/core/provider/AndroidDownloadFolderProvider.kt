@@ -12,7 +12,7 @@ class AndroidDownloadFolderProvider(
     override fun directory(): File {
         return File(
             Environment.getExternalStorageDirectory().absolutePath + File.separator +
-                    context.getString(tachiyomi.i18n.R.string.app_name),
+                    context.getString(android.R.string.dialog_alert_title),
             "downloads",
         )
     }

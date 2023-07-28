@@ -58,7 +58,7 @@ abstract class WebViewInterceptor(
 
         if (!WebViewUtil.supportsWebView(context)) {
             launchUI {
-                context.toast(tachiyomi.i18n.R.string.information_webview_required, Toast.LENGTH_LONG)
+                context.toast(android.R.string.dialog_alert_title, Toast.LENGTH_LONG)
             }
             return response
         }

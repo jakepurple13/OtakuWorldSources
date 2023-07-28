@@ -43,7 +43,7 @@ class CloudflareInterceptor(
         // Because OkHttp's enqueue only handles IOExceptions, wrap the exception so that
         // we don't crash the entire app
         catch (e: CloudflareBypassException) {
-            throw IOException(context.getString(tachiyomi.i18n.R.string.information_cloudflare_bypass_failure))
+            throw IOException(context.getString(android.R.string.dialog_alert_title))
         } catch (e: Exception) {
             throw IOException(e)
         }
@@ -125,7 +125,7 @@ class CloudflareInterceptor(
         if (!cloudflareBypassed) {
             // Prompt user to update WebView if it seems too outdated
             if (isWebViewOutdated) {
-                context.toast(tachiyomi.i18n.R.string.information_webview_outdated, Toast.LENGTH_LONG)
+                context.toast(android.R.string.dialog_alert_title, Toast.LENGTH_LONG)
             }
 
             throw CloudflareBypassException()

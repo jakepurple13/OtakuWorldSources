@@ -28,8 +28,6 @@ android {
 }
 
 dependencies {
-    implementation(projects.animeWorldSources.aniyomibridge.i18n)
-
     api(libs.logcat)
 
     api(libs.rxjava)
@@ -58,5 +56,5 @@ dependencies {
     implementation(libs.bundles.js.engine)
 
     // FFmpeg-kit
-    implementation(libs.ffmpeg.kit)
+    //implementation(libs.ffmpeg.kit)
 }

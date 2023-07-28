@@ -22,8 +22,8 @@ class SecurityPreferences(
     fun lastAppClosed() = preferenceStore.getLong("last_app_closed", 0)
 
     enum class SecureScreenMode(val titleResId: Int) {
-        ALWAYS(tachiyomi.i18n.R.string.lock_always),
-        INCOGNITO(tachiyomi.i18n.R.string.pref_incognito_mode),
-        NEVER(tachiyomi.i18n.R.string.lock_never),
+        ALWAYS(android.R.string.dialog_alert_title),
+        INCOGNITO(android.R.string.dialog_alert_title),
+        NEVER(android.R.string.dialog_alert_title),
     }
 }
