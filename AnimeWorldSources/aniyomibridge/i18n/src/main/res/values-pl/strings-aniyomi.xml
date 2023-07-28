@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="manga_categories">Kategorie</string>
+    <string name="unlock_app">Odblokuj Aniyomi</string>
+    <string name="action_sort_last_manga_update">Ostatnia aktualizacja mangi</string>
+    <string name="action_show_manga">Pokaż mangę</string>
+    <string name="action_display_local_badge_manga">Lokalne mangi</string>
+    <string name="pref_update_only_completely_read">Posiada nieprzeczytane rozdziały</string>
+    <string name="pref_library_update_show_tab_badge">Pokaż wskaźnik nieprzeczytanych na ikonie Aktualizacje</string>
+    <string name="default_manga_category">Domyślna kategoria</string>
+    <string name="pref_manga_library_update_categories_details">Tytuły w wykluczonych kategoriach nie będą aktualizowane, nawet jeśli są również w uwzględnionych kategoriach.</string>
+    <string name="untrusted_extension_message">To rozszerzenie było podpisane niezaufanym certyfikatem i nie zostało aktywowane.
+\n
+\nZłośliwe rozszerzenie może odczytać dane logowania przechowywane w Tachiyomi albo uruchomić złośliwy kod.
+\n
+\nUfając temu rozszerzeniu akceptujesz to zagrożenie.</string>
+    <string name="pref_category_delete_chapters">Usuń rozdziały</string>
+    <string name="pref_remove_after_marked_as_read">Po ręcznym oznaczeniu jako przeczytane</string>
+    <string name="pref_remove_after_read">Usuwaj rozdziały automatycznie po przeczytaniu</string>
+    <string name="pref_remove_bookmarked_chapters">Usuwaj rozdziały dodane do zakładek</string>
+    <string name="pref_remove_exclude_categories_manga">Wykluczone kategorie</string>
+    <string name="pref_auto_update_manga_sync">Aktualizuj postęp po przeczytaniu rozdziału</string>
+    <string name="pref_clear_chapter_cache">Wyczyść cache rozdziałów</string>
+    <string name="pref_auto_clear_chapter_cache">Wyczyść cache rozdziałów przy wychodzeniu z aplikacji</string>
+    <string name="pref_clear_manga_database">Wyczyść bazę danych</string>
+    <string name="pref_clear_manga_database_summary">Usuń historię mang, których nie ma w twojej bibliotece</string>
+    <string name="clear_database_confirmation">Na pewno\? Przeczytane rozdziały i postęp w mangach spoza biblioteki zostaną utracone</string>
+    <string name="pref_refresh_library_tracking_summary">Aktualizuje status, ocenę i ostatnio czytany rozdział na podstawie usług śledzenia</string>
+    <string name="pref_incognito_mode_summary">Wstrzymuje zapisywanie do historii czytania</string>
+    <string name="manga_from_library">Manga z biblioteki</string>
+    <string name="snack_add_to_manga_library">Dodać mangę do biblioteki\?</string>
+    <string name="download_error">Błąd</string>
+    <string name="download_paused">Wstrzymane</string>
+    <string name="also_set_chapter_settings_for_library">Dodatkowo zastosuj do wszystkich tytułów w mojej bibliotece</string>
+    <string name="dialog_with_checkbox_reset">Resetuj wszystkie rozdziały tej mangi</string>
+    <string name="download_insufficient_space">Nie udało się pobrać rozdziałów z powodu braku miejsca na urządzeniu</string>
+    <string name="download_queue_size_warning">Ostrzeżenie: Duże aktualizacje biblioteki mogą prowadzić do zwiększonego zużycia baterii oraz spowolnienia działania źródeł.</string>
+    <string name="information_webview_required">Widok w przeglądarce jest wymagany dla Tachiyomi</string>
+    <string name="download_notifier_download_paused_chapters">Pobieranie wstrzymane</string>
+    <string name="channel_new_chapters_episodes">Aktualizacje rozdziałów</string>
+    <string name="backup_settings_warning">Ostrzeżenie: Tworzenie kopii zapasowej ustawień spowoduje zapisanie również haseł do ścieżek, nie udostępniaj tego pliku nikomu!</string>
+    <string name="label_anime_library">Anime</string>
+    <string name="anime_categories">Kategorie anime</string>
+    <string name="general_categories">Kategorie</string>
+    <string name="episodes">Odcinki</string>
+    <string name="entries">Pozycje w bibliotece</string>
+    <string name="chapters_episodes">Rozdziały i odcinki</string>
+    <string name="label_manga_library">Manga</string>
+    <string name="label_manga">Manga</string>
+    <string name="label_anime">Anime</string>
+    <string name="pref_library_manga_columns">Liczba mang w rzędzie</string>
+    <string name="pref_library_anime_columns">Liczba anime w rzędzie</string>
+    <string name="action_download_unseen">Pobierz nieobejrzane odcinki</string>
+    <string name="action_view_episodes">Zobacz odcinki</string>
+    <string name="action_sort_last_anime_update">Ostatnia aktualizacja anime</string>
+    <string name="action_sort_latest_episode">Najnowszy odcinek</string>
+    <string name="action_sort_total_episodes">Liczba odcinków</string>
+    <string name="action_mark_as_seen">Oznacz jako obejrzane</string>
+    <string name="label_watched_episodes">Obejrzane</string>
+    <string name="action_sort_last_checked">Ostatnio sprawdzony</string>
+    <string name="action_next_episode">Następny odcinek</string>
+    <string name="label_manga_sources">Źródła Mangi</string>
+    <string name="action_show_anime">Pokaż anime</string>
+    <string name="action_display_download_badge_anime">Pobrane odcinki</string>
+    <string name="label_anime_sources">Źródła Anime</string>
+    <string name="action_sort_last_seen">Ostatnio widziany</string>
+    <string name="action_sort_episode_fetch_date">Data pobrania odcinka</string>
+    <string name="action_mark_as_unseen">Oznacz jako nieobejrzane</string>
+    <string name="action_download_unread">Pobierz nieprzeczytane rozdziały</string>
+    <string name="action_previous_episode">Poprzedni odcinek</string>
+    <string name="pref_bottom_nav_no_updates">Przenieś Aktualizacje do zakładki Więcej</string>
+    <string name="action_player_pip">Tryb obrazu w obrazie</string>
+    <string name="action_edit_manga_categories">Edytuj kategorie mangi</string>
+    <string name="label_anime_updates">Anime</string>
+    <string name="label_anime_history">Anime</string>
+    <string name="label_updates">Manga</string>
+    <string name="player_overlay_back">Wróć</string>
+    <string name="pref_bottom_nav_no_history">Przenieś Historię to zakładki Więcej</string>
+    <string name="pref_bottom_nav_no_manga">Przenieś Manga do zakładki Więcej</string>
+    <string name="action_mark_previous_as_seen">Oznacz jako widziane wcześniej</string>
+    <string name="action_edit_anime_categories">Edytuj kategorie anime</string>
+    <string name="action_sort_unseen_count">Liczba nie obejrzanych</string>
+    <string name="action_filter_unseen">Nie obejrzane</string>
+    <plurals name="download_amount_anime">
+        <item quantity="one" />
+        <item quantity="few" />
+        <item quantity="many" />
+        <item quantity="other" />
+    </plurals>
+    <plurals name="notification_new_episodes_summary">
+        <item quantity="one" />
+        <item quantity="few" />
+        <item quantity="many" />
+        <item quantity="other" />
+    </plurals>
+    <plurals name="notification_episodes_generic">
+        <item quantity="one" />
+        <item quantity="few" />
+        <item quantity="many" />
+        <item quantity="other" />
+    </plurals>
+    <plurals name="seconds">
+        <item quantity="one" />
+        <item quantity="few" />
+        <item quantity="many" />
+        <item quantity="other" />
+    </plurals>
+    <plurals name="notification_episodes_multiple_and_more">
+        <item quantity="one" />
+        <item quantity="few" />
+        <item quantity="many" />
+        <item quantity="other" />
+    </plurals>
+    <plurals name="next_unseen_episodes">
+        <item quantity="one" />
+        <item quantity="few" />
+        <item quantity="many" />
+        <item quantity="other" />
+    </plurals>
+    <plurals name="anime_num_episodes">
+        <item quantity="one" />
+        <item quantity="few" />
+        <item quantity="many" />
+        <item quantity="other" />
+    </plurals>
+</resources>

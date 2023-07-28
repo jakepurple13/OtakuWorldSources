@@ -30,6 +30,9 @@ include(":MangaWorldSources:tachiyomibridge:core_tachi")
 include(":MangaWorldSources:tachiyomibridge:i18n")
 include(":NovelWorldSources")
 include(":AnimeWorldSources")
+include(":AnimeWorldSources:aniyomibridge:source-api")
+include(":AnimeWorldSources:aniyomibridge:core")
+include(":AnimeWorldSources:aniyomibridge:i18n")
 /*include(
     ":MangaWorldSources:tachiyomibridge",
     ":NovelWorldSources:novelupdates",

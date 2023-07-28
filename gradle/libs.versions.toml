@@ -95,6 +95,9 @@ logcat = "com.squareup.logcat:logcat:0.1"
 
 jakepurple13-gson = { module = "com.github.jakepurple13.HelpfulTools:gsonutils", version.ref = "jakepurple13Version" }
 
+aniyomi-mpv = "com.github.jmir1:aniyomi-mpv-lib:1.8.n"
+ffmpeg-kit = "com.github.jmir1:ffmpeg-kit:1.8"
+
 kotson = "com.github.salomonbrys.kotson:kotson:2.5.0"
 
 ktorCore = { module = "io.ktor:ktor-client-core", version.ref = "ktorVersion" }
