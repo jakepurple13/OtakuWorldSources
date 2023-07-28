@@ -97,7 +97,7 @@ jobs:
             core.setOutput('multisrcMatrix', { 'chunk': [...Array(numMultisrcChunks).keys()] });
 
   build_individual:
-    name: Build individual modules
+    name: Build individual modules for Pull Request
     needs: prepare
     if: ${{ needs.prepare.outputs.isIndividualChanged == '1' }}
     runs-on: ubuntu-latest
