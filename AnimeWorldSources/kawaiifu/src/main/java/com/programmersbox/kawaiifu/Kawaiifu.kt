@@ -1,8 +1,8 @@
 package com.programmersbox.kawaiifu
 
-import com.programmersbox.animeworldsources.ShowApi
 import com.programmersbox.animeworldsources.getQualityFromName
 import com.programmersbox.animeworldsources.toJsoup
+import com.programmersbox.models.ApiService
 import com.programmersbox.models.ChapterModel
 import com.programmersbox.models.InfoModel
 import com.programmersbox.models.ItemModel
@@ -10,19 +10,15 @@ import com.programmersbox.models.Storage
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 
-object Kawaiifu : ShowApi(
-    baseUrl = "https://kawaiifu.com",
-    recentPath = "page/",
-    allPath = ""
-) {
+object Kawaiifu : ApiService {
+    override val baseUrl: String get() = "https://kawaiifu.com"
     override val serviceName: String get() = "KAWAIIFU"
     override val canScroll: Boolean get() = true
     override val canScrollAll: Boolean get() = false
     override val canDownload: Boolean get() = false
-    override fun recentPage(page: Int): String = page.toString()
 
     override suspend fun recent(page: Int): List<ItemModel> {
-        return recentPath(page)
+        return "$baseUrl/page/$page".toJsoup()
             .select(".today-update .item")
             .map {
                 ItemModel(
@@ -36,7 +32,7 @@ object Kawaiifu : ShowApi(
     }
 
     override suspend fun allList(page: Int): List<ItemModel> {
-        return all(page)
+        return "$baseUrl/".toJsoup()
             .select(".section")
             .select(".list-film > .item")
             .map {
