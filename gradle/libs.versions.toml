@@ -21,6 +21,8 @@ ziplineVersion = "1.1.0"
 
 jakepurple13Version = "10.6.5"
 
+ktorVersion = "2.3.2"
+
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
@@ -95,6 +97,12 @@ jakepurple13-gson = { module = "com.github.jakepurple13.HelpfulTools:gsonutils",
 
 kotson = "com.github.salomonbrys.kotson:kotson:2.5.0"
 
+ktorCore = { module = "io.ktor:ktor-client-core", version.ref = "ktorVersion" }
+ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktorVersion" }
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktorVersion" }
+ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorVersion" }
+ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktorVersion" }
+
 [bundles]
 reactivex = ["rxandroid", "rxjava"]
 okhttp = ["okhttp-core", "okhttp-logging", "okhttp-dnsoverhttps"]
@@ -103,3 +111,5 @@ sqlite = ["sqlite-framework", "sqlite-ktx", "sqlite-android"]
 
 okHttpLibs = ["okhttp-core", "okhttp-dnsoverhttps"]
 ziplineLibs = ["ziplineLoader", "ziplineProfiler"]
+
+ktor = ["ktorCore", "ktor-client-cio", "ktor-client-content-negotiation", "ktor-client-logging", "ktor-serialization-kotlinx-json"]

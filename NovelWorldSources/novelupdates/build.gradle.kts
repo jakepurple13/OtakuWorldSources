@@ -25,13 +25,8 @@ dependencies {
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation(libs.jsoup)
-    val ktorVersion = "2.3.2"
-    implementation("io.ktor:ktor-client-core:$ktorVersion")
-    implementation("io.ktor:ktor-client-cio:$ktorVersion")
-    implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
-    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
-    implementation("io.ktor:ktor-client-logging:$ktorVersion")
-    implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
+    implementation(libs.bundles.ktor)
+    implementation("io.ktor:ktor-client-okhttp:${libs.versions.ktorVersion.get()}")
     implementation(libs.koinAndroid)
     implementation("com.tfowl.ktor:ktor-jsoup:2.0.0")
 }
