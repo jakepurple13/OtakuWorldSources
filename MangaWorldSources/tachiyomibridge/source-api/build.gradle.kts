@@ -16,7 +16,7 @@ kotlin {
                 api(libs.kotlinxSerialization)
                 api(libs.injekt.core)
                 api("io.reactivex:rxjava:1.3.8")
-                api("org.jsoup:jsoup:1.16.1")
+                api(libs.jsoup)
             }
         }
         val androidMain by getting {

@@ -2,6 +2,9 @@ package com.programmersbox.kawaiifu
 
 import com.programmersbox.animeworldsources.getQualityFromName
 import com.programmersbox.animeworldsources.toJsoup
+import com.programmersbox.core.ChapterModel
+import com.programmersbox.core.InfoModel
+import com.programmersbox.core.ItemModel
 import com.programmersbox.models.ApiService
 import com.programmersbox.models.ChapterModel
 import com.programmersbox.models.InfoModel
@@ -26,7 +29,6 @@ object Kawaiifu : ApiService {
                     description = it.select("div.info").select("p").text(),
                     imageUrl = it.selectFirst("img")?.attr("src").orEmpty(),
                     url = it.selectFirst("a")?.attr("href").orEmpty(),
-                    source = this
                 )
             }
     }
@@ -41,7 +43,6 @@ object Kawaiifu : ApiService {
                     description = it.selectFirst("p.txtstyle2")?.select("span.cot1")?.text().orEmpty(),
                     imageUrl = it.selectFirst("img")?.attr("src").orEmpty(),
                     url = it.selectFirst("a")?.attr("abs:href").orEmpty(),
-                    source = this
                 )
             }
     }
@@ -55,7 +56,6 @@ object Kawaiifu : ApiService {
                     description = it.text(),
                     imageUrl = it.selectFirst("img")?.attr("src").orEmpty(),
                     url = it.selectFirst("a")?.attr("href").orEmpty(),
-                    source = this
                 )
             }
     }
@@ -63,7 +63,6 @@ object Kawaiifu : ApiService {
     override suspend fun itemInfo(model: ItemModel): InfoModel {
         val doc = model.url.toJsoup()
         return InfoModel(
-            source = this,
             title = model.title,
             url = model.url,
             alternativeNames = emptyList(),
@@ -84,7 +83,6 @@ object Kawaiifu : ApiService {
                             it.selectFirst("a")?.attr("href").orEmpty(),
                             "",
                             model.url,
-                            this
                         )
                     }
                     ?.reversed()
@@ -149,7 +147,6 @@ object Kawaiifu : ApiService {
                 .joinToString("\n") { it.text() },
             imageUrl = doc.selectFirst("a.thumb > img")?.attr("src").orEmpty(),
             url = url,
-            source = this
         )
     }
 }

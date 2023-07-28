@@ -7,7 +7,6 @@ plugins {
 
 android {
     namespace = "com.programmersbox.mangaread"
-
     defaultConfig {
         versionName = "1.0.0"
     }
