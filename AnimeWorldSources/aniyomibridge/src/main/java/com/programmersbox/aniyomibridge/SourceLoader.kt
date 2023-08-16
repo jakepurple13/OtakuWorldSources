@@ -151,7 +151,7 @@ class SourceLoader : KoinComponent {
                     return InfoModel(
                         title = model.title,
                         description = s.description.orEmpty(),
-                        url = model.url,
+                        url = t.getAnimeUrl(s),
                         imageUrl = model.imageUrl,
                         chapters = t.fetchEpisodeList(f)
                             .toBlocking()

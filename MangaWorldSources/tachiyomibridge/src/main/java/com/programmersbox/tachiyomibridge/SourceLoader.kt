@@ -152,7 +152,7 @@ class SourceLoader : KoinComponent {
                     return InfoModel(
                         title = model.title,
                         description = s.description.orEmpty(),
-                        url = model.url,
+                        url = t.getMangaUrl(f),
                         imageUrl = model.imageUrl,
                         chapters = t.getChapterList(f).map {
                             ChapterModel(
