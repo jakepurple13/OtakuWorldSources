@@ -2,10 +2,10 @@
   {
     "name": "Aniyomi Bridge",
     "pkg": "com.programmersbox.aniyomibridge",
-    "apk": "animeworld-aniyomi-bridge-v1.0.0.apk",
+    "apk": "animeworld-aniyomi-bridge-v1.0.1.apk",
     "lang": "en#",
     "code": 1,
-    "version": "1.0.0",
+    "version": "1.0.1",
     "feature": "anime",
     "sources": null
   },
@@ -79,10 +79,10 @@
   {
     "name": "Tachiyomi Bridge",
     "pkg": "com.programmersbox.tachiyomibridge",
-    "apk": "mangaworld-tachiyomi-bridge-v1.0.4.apk",
+    "apk": "mangaworld-tachiyomi-bridge-v1.0.5.apk",
     "lang": "en#",
     "code": 1,
-    "version": "1.0.4",
+    "version": "1.0.5",
     "feature": "manga",
     "sources": null
   },
