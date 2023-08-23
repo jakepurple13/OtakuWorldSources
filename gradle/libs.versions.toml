@@ -43,7 +43,7 @@ extensionsLib = { module = "com.github.tachiyomiorg:extensions-lib", version.ref
 injekt-core = { module = "com.github.inorichi.injekt:injekt-core", version.ref = "injekt-core" }
 androidx-webkit = { group = "androidx.webkit", name = "webkit", version.ref = "webkit" }
 
-kotlinxSerialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1"
+kotlinxSerialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0"
 
 koinAndroid = { module = "io.insert-koin:koin-android", version = "3.4.2" }
 
