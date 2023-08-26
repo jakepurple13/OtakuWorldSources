@@ -95,8 +95,8 @@ logcat = "com.squareup.logcat:logcat:0.1"
 
 jakepurple13-gson = { module = "com.github.jakepurple13.HelpfulTools:gsonutils", version.ref = "jakepurple13Version" }
 
-aniyomi-mpv = "com.github.jmir1:aniyomi-mpv-lib:1.8.n"
-ffmpeg-kit = "com.github.jmir1:ffmpeg-kit:1.8"
+aniyomi-mpv = "com.github.jmir1:aniyomi-mpv-lib:1.10.n"
+ffmpeg-kit = "com.github.jmir1:ffmpeg-kit:1.10"
 
 kotson = "com.github.salomonbrys.kotson:kotson:2.5.0"
 
