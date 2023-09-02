@@ -83,7 +83,7 @@ image-decoder = "com.github.tachiyomiorg:image-decoder:7879b45"
 
 natural-comparator = "com.github.gpanther:java-nat-sort:natural-comparator-1.1"
 
-acra-http = "ch.acra:acra-http:5.10.1"
+acra-http = "ch.acra:acra-http:5.11.2"
 firebase-analytics = "com.google.firebase:firebase-analytics-ktx:21.3.0"
 
 sqldelight-android-driver = { module = "com.squareup.sqldelight:android-driver", version.ref = "sqldelight" }
