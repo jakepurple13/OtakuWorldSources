@@ -8,7 +8,7 @@ espresso-core = "3.5.1"
 appcompat = "1.6.1"
 material = "1.9.0"
 
-extensions-lib = "1.4.2"
+extensions-lib = "1.4.4"
 injekt-core = "65b0440"
 webkit = "1.7.0"
 
