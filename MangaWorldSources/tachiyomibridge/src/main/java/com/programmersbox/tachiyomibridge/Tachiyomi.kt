@@ -135,7 +135,7 @@ private fun ExtensionJsonObject.extractLibVersion(): Double {
 }
 
 private const val REPO_URL_PREFIX =
-    "https://raw.githubusercontent.com/tachiyomiorg/tachiyomi-extensions/repo/"
+    "https://raw.githubusercontent.com/tachiyomiorg/extensions/repo/"
 
 @Serializable
 private data class ExtensionJsonObject(
