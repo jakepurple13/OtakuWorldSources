@@ -22,10 +22,10 @@
   {
     "name": "Custom Tachiyomi Bridge",
     "pkg": "com.programmersbox.customtachiyomibridge",
-    "apk": "mangaworld-custom-tachiyomi-bridge-v1.0.0.apk",
+    "apk": "mangaworld-custom-tachiyomi-bridge-v1.0.1.apk",
     "lang": "en#",
     "code": 1,
-    "version": "1.0.0",
+    "version": "1.0.1",
     "feature": "manga",
     "sources": null
   },
