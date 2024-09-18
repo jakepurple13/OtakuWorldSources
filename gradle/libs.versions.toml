@@ -47,7 +47,7 @@ kotlinxSerialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1"
 
 koinAndroid = { module = "io.insert-koin:koin-android", version = "3.4.2" }
 
-desugar = "com.android.tools:desugar_jdk_libs:2.0.3"
+desugar = "com.android.tools:desugar_jdk_libs:2.1.2"
 android-shortcut-gradle = "com.github.zellius:android-shortcut-gradle-plugin:0.1.2"
 
 rxandroid = "io.reactivex:rxandroid:1.2.1"
