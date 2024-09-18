@@ -13,7 +13,7 @@ injekt-core = "65b0440"
 webkit = "1.7.0"
 
 aboutlib_version = "10.8.2"
-okhttp_version = "5.0.0-alpha.11"
+okhttp_version = "5.0.0-alpha.14"
 sqlite = "2.3.1"
 sqldelight = "1.5.5"
 
