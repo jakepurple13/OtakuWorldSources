@@ -2,26 +2,40 @@ package com.programmersbox.mangapark
 
 import android.annotation.SuppressLint
 import app.cash.zipline.EngineApi
-import app.cash.zipline.QuickJs
 import com.programmersbox.mangaworldsources.GET
 import com.programmersbox.mangaworldsources.MangaUtils.headers
-import com.programmersbox.models.*
+import com.programmersbox.mangaworldsources.POST
+import com.programmersbox.models.ApiService
+import com.programmersbox.models.ChapterModel
+import com.programmersbox.models.InfoModel
+import com.programmersbox.models.ItemModel
+import com.programmersbox.models.Storage
 import com.programmersbox.source_utilities.NetworkHelper
 import com.programmersbox.source_utilities.asJsoup
 import com.programmersbox.source_utilities.cloudflare
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.jsonArray
-import kotlinx.serialization.json.jsonPrimitive
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.Request
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
+import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
 
 object MangaPark : ApiService, KoinComponent {
+
+    private val json = Json {
+        ignoreUnknownKeys = true
+    }
 
     override val baseUrl = "https://mangapark.net"
 
@@ -29,12 +43,14 @@ object MangaPark : ApiService, KoinComponent {
 
     private val helper: NetworkHelper by inject()
 
+    private val apiUrl = "$baseUrl/apo/"
+
     private fun String.v3Url() = baseUrl
 
     override suspend fun search(
         searchText: CharSequence,
         page: Int,
-        list: List<ItemModel>
+        list: List<ItemModel>,
     ): List<ItemModel> {
         return cloudflare(helper, "${baseUrl.v3Url()}/search?word=$searchText&page=$page").execute()
             .asJsoup()
@@ -47,8 +63,42 @@ object MangaPark : ApiService, KoinComponent {
     }
 
     override suspend fun recent(page: Int): List<ItemModel> {
-        return cloudflare(helper, "${baseUrl.v3Url()}/browse?sort=update&page=$page").execute()
-            .asJsoup().browseToItemModel()
+        return helper.cloudflareClient.newCall(
+            searchMangaRequest(page, "")
+        )
+            .execute()
+            .parseAs<Data<SearchComics>>()
+            .data
+            .searchComics
+            .items
+            .map { it.data.toSManga(this@MangaPark, baseUrl) }
+        /*return cloudflare(helper, "${baseUrl.v3Url()}/browse?sort=update&page=$page").execute()
+            .asJsoup().browseToItemModel()*/
+    }
+
+    private fun searchMangaRequest(page: Int, query: String): Request {
+        val payload = GraphQL(
+            SearchVariables(
+                SearchPayload(
+                    page = page + 1,
+                    size = 24,
+                    query = query.takeUnless(String::isEmpty),
+                    incGenres = emptyList(),
+                    excGenres = emptyList(),
+                    incTLangs = listOf("en"),
+                    incOLangs = emptyList(),
+                    //for latest: field_update
+                    //for popular: field_score
+                    sortby = "field_update",
+                    chapCount = "",
+                    origStatus = "",
+                    siteStatus = "",
+                ),
+            ),
+            SEARCH_QUERY,
+        ).toJsonRequestBody()
+
+        return POST(apiUrl, headers, payload)
     }
 
     private fun Document.browseToItemModel(query: String = "div#subject-list div.col") =
@@ -64,6 +114,22 @@ object MangaPark : ApiService, KoinComponent {
             }
 
     override suspend fun itemInfo(model: ItemModel): InfoModel {
+        println(model)
+        /*helper.cloudflareClient.newCall(
+            POST(
+                apiUrl, headers,
+                GraphQL(
+                    IdVariables(model.url.substringAfterLast("#")),
+                    DETAILS_QUERY,
+                ).toJsonRequestBody()
+            )
+        )
+            .execute()
+            .parseAs<Data<ComicNode>>()
+            .data
+            .comic
+            .data
+            .toSManga(sources = this@MangaPark, baseUrl = baseUrl)*/
         val doc = cloudflare(helper, model.url.v3Url()).execute().asJsoup()
         return try {
             val infoElement = doc.select("div#mainer div.container-fluid")
@@ -72,6 +138,7 @@ object MangaPark : ApiService, KoinComponent {
                 description = model.description,
                 url = model.url,
                 imageUrl = model.imageUrl,
+                //FIXME: Modify this!
                 chapters = chapterListParse(
                     helper.cloudflareClient.newCall(chapterListRequest(model)).execute(),
                     model.url.v3Url()
@@ -106,11 +173,22 @@ object MangaPark : ApiService, KoinComponent {
     }
 
     private fun chapterListRequest(manga: ItemModel): Request {
-        return GET(manga.url)
+        val payload = GraphQL(
+            IdVariables(manga.url.substringAfterLast("#")),
+            CHAPTERS_QUERY,
+        ).toJsonRequestBody()
+
+        return POST(apiUrl, headers, payload)
+        //return GET(manga.url)
     }
 
     private fun chapterListParse(response: Response, mangaUrl: String): List<ChapterModel> {
-        val f = "div.p-2:not(:has(.px-3))"
+        return response.parseAs<Data<ChapterList>>()
+            .data
+            .chapterList
+            .map { it.data.toSChapter(this@MangaPark, mangaUrl) }
+            .reversed()
+        /*val f = "div.p-2:not(:has(.px-3))"
         return response.asJsoup()
             .select("div.episode-list #chap-index")
             .flatMap { it.select(f).map { chapterFromElement(it) } }
@@ -122,7 +200,7 @@ object MangaPark : ApiService, KoinComponent {
                     sourceUrl = mangaUrl,
                     source = this
                 ).apply { uploadedTime = it.dateUploaded }
-            }
+            }*/
     }
 
     private fun chapterListParse(response: Document, mangaUrl: String): List<ChapterModel> {
@@ -275,9 +353,307 @@ object MangaPark : ApiService, KoinComponent {
         )
     }
 
+    private fun buildQuery(queryAction: () -> String): String {
+        return queryAction()
+            .trimIndent()
+            .replace("%", "$")
+    }
+
+    @Serializable
+    class GraphQL<T>(
+        private val variables: T,
+        private val query: String,
+    )
+
+    @Serializable
+    class SearchVariables(private val select: SearchPayload)
+
+    @Serializable
+    class SearchPayload(
+        @SerialName("word") private val query: String? = null,
+        private val incGenres: List<String>? = null,
+        private val excGenres: List<String>? = null,
+        private val incTLangs: List<String>? = null,
+        private val incOLangs: List<String>? = null,
+        private val sortby: String? = null,
+        private val chapCount: String? = null,
+        private val origStatus: String? = null,
+        private val siteStatus: String? = null,
+        private val page: Int,
+        private val size: Int,
+    )
+
+    val SEARCH_QUERY = buildQuery {
+        """
+        query (
+            %select: SearchComic_Select
+        ) {
+        	get_searchComic(
+        		select: %select
+        	) {
+        		items {
+        			data {
+        				id
+        				name
+        				altNames
+        				artists
+        				authors
+        				genres
+        				originalStatus
+                        uploadStatus
+        				summary
+        				urlCoverOri
+        				urlPath
+        			}
+        		}
+        	}
+        }
+    """
+    }
+
+    val DETAILS_QUERY = buildQuery {
+        """
+        query(
+            %id: ID!
+        ) {
+            get_comicNode(
+                id: %id
+            ) {
+                data {
+                    id
+                    name
+                    altNames
+                    artists
+                    authors
+                    genres
+                    originalStatus
+                    uploadStatus
+                    summary
+                    urlCoverOri
+                    urlPath
+                }
+            }
+        }
+    """
+    }
+
+    val CHAPTERS_QUERY = buildQuery {
+        """
+        query(
+            %id: ID!
+        ) {
+            get_comicChapterList(
+                comicId: %id
+            ) {
+                data {
+                    id
+                    dname
+                    title
+                    dateModify
+                    dateCreate
+                    urlPath
+                    srcTitle
+                    userNode {
+                        data {
+                            name
+                        }
+                    }
+                    dupChapters {
+                        data {
+                            id
+                            dname
+                            title
+                            dateModify
+                            dateCreate
+                            urlPath
+                            srcTitle
+                            userNode {
+                                data {
+                                    name
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    """
+    }
+
+    private val PAGES_QUERY = buildQuery {
+        """
+        query(
+            %id: ID!
+        ) {
+            get_chapterNode(
+            	id: %id
+            ) {
+                data {
+                    imageFile {
+                        urlList
+                    }
+                }
+            }
+        }
+    """
+    }
+
+    @Serializable
+    class IdVariables(private val id: String)
+
+    private val JSON_MEDIA_TYPE = "application/json; charset=utf-8".toMediaTypeOrNull()
+
+    private inline fun <reified T : Any> T.toJsonRequestBody(): RequestBody =
+        json.encodeToString(this).toRequestBody(JSON_MEDIA_TYPE)
+
+    private inline fun <reified T> Response.parseAs(): T {
+        val s = body.string()
+        println(s)
+        return json.decodeFromString<T>(s)
+    }
+
+    @Serializable
+    class Data<T>(val data: T)
+
+    @Serializable
+    class ChapterPages(
+        @SerialName("get_chapterNode") val chapterPages: Data<ImageFiles>,
+    )
+
+    @Serializable
+    class ImageFiles(
+        val imageFile: UrlList,
+    )
+
+    @Serializable
+    class UrlList(
+        val urlList: List<String>,
+    )
+
+    @Serializable
+    class Items<T>(val items: List<T>)
+
+    @Serializable
+    class SearchComics(
+        @SerialName("get_searchComic") val searchComics: Items<Data<MangaParkComic>>,
+    )
+
+    @Serializable
+    class ComicNode(
+        @SerialName("get_comicNode") val comic: Data<MangaParkComic>,
+    )
+
+    @Serializable
+    class MangaParkComic(
+        private val id: String,
+        private val name: String,
+        private val altNames: List<String>? = null,
+        private val authors: List<String>? = null,
+        private val artists: List<String>? = null,
+        private val genres: List<String>? = null,
+        private val originalStatus: String? = null,
+        private val uploadStatus: String? = null,
+        private val summary: String? = null,
+        @SerialName("urlCoverOri") private val cover: String? = null,
+        private val urlPath: String,
+    ) {
+        fun toSManga(sources: ApiService, baseUrl: String) = ItemModel(
+            title = name,
+            description = buildString {
+                val desc = summary?.let { Jsoup.parse(it).text() }
+                val names = altNames?.takeUnless { it.isEmpty() }
+                    ?.joinToString("\n") { "• ${it.trim()}" }
+
+                if (desc.isNullOrEmpty()) {
+                    if (!names.isNullOrEmpty()) {
+                        append("Alternative Names:\n", names)
+                    }
+                } else {
+                    append(desc)
+                    if (!names.isNullOrEmpty()) {
+                        append("\n\nAlternative Names:\n", names)
+                    }
+                }
+            },
+            url = "$baseUrl$urlPath#$id",
+            imageUrl = cover ?: "",
+            source = sources
+        )
+
+        companion object {
+            private fun String.toCamelCase(): String {
+                val result = StringBuilder(length)
+                var capitalize = true
+                for (char in this) {
+                    result.append(
+                        if (capitalize) {
+                            char.uppercase()
+                        } else {
+                            char.lowercase()
+                        },
+                    )
+                    capitalize = char.isWhitespace()
+                }
+                return result.toString()
+            }
+        }
+    }
+
+    @Serializable
+    class ChapterList(
+        @SerialName("get_comicChapterList") val chapterList: List<Data<MangaParkChapter>>,
+    )
+
+    @Serializable
+    class MangaParkChapter(
+        private val id: String,
+        @SerialName("dname") private val displayName: String,
+        private val title: String? = null,
+        private val dateCreate: Long? = null,
+        private val dateModify: Long? = null,
+        private val urlPath: String,
+        private val srcTitle: String? = null,
+        private val userNode: Data<Name>? = null,
+        val dupChapters: List<Data<MangaParkChapter>> = emptyList(),
+    ) {
+        fun toSChapter(apiService: ApiService, sourceUrl: String) = ChapterModel(
+            name = buildString {
+                append(displayName)
+                title?.let { append(": ", it) }
+            },
+            url = "$urlPath#$id",
+            uploaded = dateModify?.toString() ?: dateCreate?.toString() ?: "0L",
+            sourceUrl = sourceUrl,
+            source = apiService
+        )
+    }
+
+    @Serializable
+    class Name(val name: String)
+
     @OptIn(EngineApi::class)
     override suspend fun chapterInfo(chapterModel: ChapterModel): List<Storage> {
-        val script = cloudflare(helper, chapterModel.url).execute().asJsoup()
+        return helper.cloudflareClient.newCall(
+            POST(
+                apiUrl,
+                headers,
+                body = GraphQL(
+                    IdVariables(chapterModel.url.substringAfterLast("#")),
+                    PAGES_QUERY,
+                ).toJsonRequestBody()
+            ),
+        )
+            .execute()
+            .parseAs<Data<ChapterPages>>()
+            .data
+            .chapterPages
+            .data
+            .imageFile
+            .urlList
+            .mapIndexed { idx, url ->
+                Storage(link = url, source = chapterModel.url, quality = "Good", sub = "Yes")
+            }
+        /*val script = cloudflare(helper, chapterModel.url).execute().asJsoup()
             .select("script:containsData(imgHttpLis):containsData(amWord):containsData(amPass)")
             .html()
         val imgHttpLisString =
@@ -295,7 +671,7 @@ object MangaPark : ApiService, KoinComponent {
             Json.parseToJsonElement(imgAccListString).jsonArray.map { it.jsonPrimitive.content }
 
         return imgHttpLis.zip(imgAccList).mapIndexed { i, (imgUrl, imgAcc) -> "$imgUrl?$imgAcc" }
-            .map { Storage(link = it, source = chapterModel.url, quality = "Good", sub = "Yes") }
+            .map { Storage(link = it, source = chapterModel.url, quality = "Good", sub = "Yes") }*/
     }
 
     override val canScroll: Boolean = true
