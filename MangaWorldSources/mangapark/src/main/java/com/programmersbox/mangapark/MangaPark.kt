@@ -52,14 +52,32 @@ object MangaPark : ApiService, KoinComponent {
         page: Int,
         list: List<ItemModel>,
     ): List<ItemModel> {
-        return cloudflare(helper, "${baseUrl.v3Url()}/search?word=$searchText&page=$page").execute()
+        return helper.cloudflareClient.newCall(
+            searchMangaRequest(page, searchText.toString())
+        )
+            .execute()
+            .parseAs<Data<SearchComics>>()
+            .data
+            .searchComics
+            .items
+            .map { it.data.toSManga(this@MangaPark, baseUrl) }
+        /*cloudflare(helper, "${baseUrl.v3Url()}/search?word=$searchText&page=$page").execute()
             .asJsoup()
-            .browseToItemModel("div#search-list div.col")
+            .browseToItemModel("div#search-list div.col")*/
     }
 
     override suspend fun allList(page: Int): List<ItemModel> {
-        return cloudflare(helper, "${baseUrl.v3Url()}/browse?sort=d007&page=$page").execute()
-            .asJsoup().browseToItemModel()
+        return helper.cloudflareClient.newCall(
+            searchMangaRequest(page, "", "field_score")
+        )
+            .execute()
+            .parseAs<Data<SearchComics>>()
+            .data
+            .searchComics
+            .items
+            .map { it.data.toSManga(this@MangaPark, baseUrl) }
+        /*cloudflare(helper, "${baseUrl.v3Url()}/browse?sort=d007&page=$page").execute()
+            .asJsoup().browseToItemModel()*/
     }
 
     override suspend fun recent(page: Int): List<ItemModel> {
@@ -76,7 +94,11 @@ object MangaPark : ApiService, KoinComponent {
             .asJsoup().browseToItemModel()*/
     }
 
-    private fun searchMangaRequest(page: Int, query: String): Request {
+    private fun searchMangaRequest(
+        page: Int,
+        query: String,
+        sortBy: String = "field_update",
+    ): Request {
         val payload = GraphQL(
             SearchVariables(
                 SearchPayload(
@@ -89,7 +111,7 @@ object MangaPark : ApiService, KoinComponent {
                     incOLangs = emptyList(),
                     //for latest: field_update
                     //for popular: field_score
-                    sortby = "field_update",
+                    sortby = sortBy,
                     chapCount = "",
                     origStatus = "",
                     siteStatus = "",
