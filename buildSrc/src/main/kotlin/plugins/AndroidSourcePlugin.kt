@@ -4,7 +4,6 @@ import com.android.build.api.variant.AndroidComponentsExtension
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.findByType
-import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -52,7 +51,11 @@ class AndroidSourcePlugin :
             val name = it.defaultConfig.manifestPlaceholders["extName"]
                 .toString()
                 .lowercase()
-            project.archivesName.set("${type}world-$name-v$version".replace(" ", "-"))
+            project.setProperty(
+                "archivesBaseName",
+                "${type}world-$name-v$version".replace(" ", "-")
+            )
+            //project.archivesName.set("${type}world-$name-v$version".replace(" ", "-"))
         }
     }
 }
