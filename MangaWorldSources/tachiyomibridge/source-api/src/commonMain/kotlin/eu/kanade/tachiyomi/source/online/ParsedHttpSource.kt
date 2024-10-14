@@ -4,10 +4,15 @@ import eu.kanade.tachiyomi.source.model.MangasPage
 import eu.kanade.tachiyomi.source.model.Page
 import eu.kanade.tachiyomi.source.model.SChapter
 import eu.kanade.tachiyomi.source.model.SManga
-import eu.kanade.tachiyomi.util.asJsoup
 import okhttp3.Response
+import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
+
+fun Response.asJsoup(html: String? = null): Document {
+    return Jsoup.parse(html ?: body.string(), request.url.toString())
+}
+
 
 /**
  * A simple implementation for sources from a website using Jsoup, an HTML parser.
