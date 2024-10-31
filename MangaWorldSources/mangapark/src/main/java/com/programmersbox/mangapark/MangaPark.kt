@@ -152,15 +152,43 @@ object MangaPark : ApiService, KoinComponent {
             .comic
             .data
             .toSManga(sources = this@MangaPark, baseUrl = baseUrl)*/
-        val doc = cloudflare(helper, model.url.v3Url()).execute().asJsoup()
+        //val doc = cloudflare(helper, model.url.v3Url()).execute().asJsoup()
         return try {
-            val infoElement = doc.select("div#mainer div.container-fluid")
-            InfoModel(
+            helper.cloudflareClient.newCall(
+                POST(
+                    apiUrl,
+                    headers,
+                    GraphQL(
+                        IdVariables(model.url.substringAfterLast("#")),
+                        DETAILS_QUERY,
+                    ).toJsonRequestBody()
+                )
+            )
+                .execute()
+                .parseAs<Data<ComicNode>>()
+                .data.comic.data
+                .let {
+                    InfoModel(
+                        title = it.name,
+                        description = it.summary ?: model.description,
+                        url = model.url,
+                        imageUrl = model.imageUrl.ifBlank { it.cover ?: "" },
+                        chapters = chapterListParse(
+                            helper.cloudflareClient.newCall(chapterListRequest(model)).execute(),
+                            model.url.v3Url()
+                        ),
+                        genres = it.genres.orEmpty(),
+                        alternativeNames = it.altNames.orEmpty(),
+                        source = this
+                    )
+                }
+
+            //val infoElement = doc.select("div#mainer div.container-fluid")
+            /*InfoModel(
                 title = model.title,
                 description = model.description,
                 url = model.url,
                 imageUrl = model.imageUrl,
-                //FIXME: Modify this!
                 chapters = chapterListParse(
                     helper.cloudflareClient.newCall(chapterListRequest(model)).execute(),
                     model.url.v3Url()
@@ -169,8 +197,9 @@ object MangaPark : ApiService, KoinComponent {
                     .map { it.text().trim() },
                 alternativeNames = emptyList(),
                 source = this
-            )
+            )*/
         } catch (e: Exception) {
+            val doc = cloudflare(helper, model.url.v3Url()).execute().asJsoup()
             e.printStackTrace()
             val genres = mutableListOf<String>()
             val alternateNames = mutableListOf<String>()
@@ -295,7 +324,7 @@ object MangaPark : ApiService, KoinComponent {
     private const val cryptoJSUrl =
         "https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"
 
-    private val dateFormat = SimpleDateFormat("MMM d, yyyy, HH:mm a", Locale.ENGLISH)
+    private val dateFormat = SimpleDateFormat.getDateTimeInstance()
     private val dateFormatTimeOnly = SimpleDateFormat("HH:mm a", Locale.ENGLISH)
 
     @SuppressLint("DefaultLocale")
@@ -567,17 +596,18 @@ object MangaPark : ApiService, KoinComponent {
 
     @Serializable
     class MangaParkComic(
-        private val id: String,
-        private val name: String,
-        private val altNames: List<String>? = null,
-        private val authors: List<String>? = null,
-        private val artists: List<String>? = null,
-        private val genres: List<String>? = null,
-        private val originalStatus: String? = null,
-        private val uploadStatus: String? = null,
-        private val summary: String? = null,
-        @SerialName("urlCoverOri") private val cover: String? = null,
-        private val urlPath: String,
+        val id: String,
+        val name: String,
+        val altNames: List<String>? = null,
+        val authors: List<String>? = null,
+        val artists: List<String>? = null,
+        val genres: List<String>? = null,
+        val originalStatus: String? = null,
+        val uploadStatus: String? = null,
+        val summary: String? = null,
+        @SerialName("urlCoverOri")
+        val cover: String? = null,
+        val urlPath: String,
     ) {
         fun toSManga(sources: ApiService, baseUrl: String) = ItemModel(
             title = name,
@@ -644,7 +674,8 @@ object MangaPark : ApiService, KoinComponent {
                 title?.let { append(": ", it) }
             },
             url = "$urlPath#$id",
-            uploaded = dateModify?.toString() ?: dateCreate?.toString() ?: "0L",
+            uploaded = runCatching { dateFormat.format(dateModify ?: dateCreate ?: 0) }
+                .getOrDefault(""),
             sourceUrl = sourceUrl,
             source = apiService
         )
