@@ -45,7 +45,6 @@ class SourceLoader : KoinComponent {
             else -> emptyList()
         }
             .filterIsInstance<HttpSource>()
-            .filter { it.lang == "en" }
             .map { toSource(it, a, p) }
     }
 
