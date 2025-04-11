@@ -26,7 +26,7 @@ jobs:
       CI_MODULE_GEN: true
     steps:
       - name: Clone repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1
@@ -72,7 +72,7 @@ jobs:
       matrix: ${{ fromJSON(needs.prepare.outputs.individualMatrix) }}
     steps:
       - name: Checkout master branch
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up JDK
         uses: actions/setup-java@v3
@@ -96,7 +96,7 @@ jobs:
           arguments: assembleRelease
 
       - name: Upload APKs (chunk ${{ matrix.chunk }})
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: "github.repository == 'jakepurple13/OtakuWorldSources'"
         with:
           name: "individual-apks-${{ matrix.chunk }}"
@@ -114,7 +114,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download APK artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           path: ~/apk-artifacts
 
@@ -125,7 +125,7 @@ jobs:
           distribution: adopt
 
       - name: Checkout master branch
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: main
           path: main
@@ -144,7 +144,7 @@ jobs:
           ./.github/scripts/create-repo.sh
 
       - name: Checkout repo branch
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: repo
           path: repo
