@@ -628,7 +628,7 @@ object MangaPark : ApiService, KoinComponent {
                 }
             },
             url = "$baseUrl$urlPath#$id",
-            imageUrl = cover ?: "",
+            imageUrl = cover?.let { "$baseUrl$it" } ?: "",
             source = sources
         )
 
