@@ -99,10 +99,10 @@
   {
     "name": "NovelUpdates",
     "pkg": "com.programmersbox.novelupdates",
-    "apk": "novelworld-novelupdates-v1.0.0.apk",
+    "apk": "novelworld-novelupdates-v1.0.1.apk",
     "lang": "en",
     "code": 1,
-    "version": "1.0.0",
+    "version": "1.0.1",
     "feature": "novel",
     "sources": [
       {
