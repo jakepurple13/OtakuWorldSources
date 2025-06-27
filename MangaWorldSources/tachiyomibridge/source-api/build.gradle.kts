@@ -22,7 +22,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(projects.mangaWorldSources.tachiyomibridge.coreTachi)
-                api("androidx.preference:preference-ktx:1.2.0")
+                api("androidx.preference:preference-ktx:1.2.1")
 
                 // Workaround for https://youtrack.jetbrains.com/issue/KT-57605
                 implementation(kotlinx.coroutines.android)
