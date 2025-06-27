@@ -8,7 +8,7 @@ plugins {
 android {
     namespace = "com.programmersbox.novelupdates"
     defaultConfig {
-        versionName = "1.0.0"
+        versionName = "1.0.1"
     }
 }
 
@@ -28,5 +28,5 @@ dependencies {
     implementation(libs.bundles.ktor)
     implementation("io.ktor:ktor-client-okhttp:${libs.versions.ktorVersion.get()}")
     implementation(libs.koinAndroid)
-    implementation("com.tfowl.ktor:ktor-jsoup:2.0.0")
+    implementation("com.tfowl.ktor:ktor-jsoup:2.3.0")
 }

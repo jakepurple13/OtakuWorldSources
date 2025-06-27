@@ -5,14 +5,17 @@ import com.programmersbox.models.ChapterModel
 import com.programmersbox.models.InfoModel
 import com.programmersbox.models.ItemModel
 import com.programmersbox.models.Storage
-import com.tfowl.ktor.client.features.JsoupPlugin
 import io.ktor.client.HttpClient
-import io.ktor.client.call.body
 import io.ktor.client.engine.okhttp.OkHttp
+import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.request.forms.submitForm
 import io.ktor.client.request.get
+import io.ktor.client.request.header
+import io.ktor.client.statement.bodyAsText
+import io.ktor.http.HttpHeaders
 import io.ktor.http.Parameters
-import org.jsoup.nodes.Document
+import io.ktor.http.headers
+import org.jsoup.Jsoup
 
 class NovelUpdates : ApiService {
     override val canDownload: Boolean get() = false
@@ -21,12 +24,19 @@ class NovelUpdates : ApiService {
     override val serviceName: String get() = "NOVEL_UPDATES"
     private val client
         get() = HttpClient(OkHttp) {
-            install(JsoupPlugin)
+            //install(JsoupPlugin)
+            defaultRequest {
+                header(
+                    "User-Agent",
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36"
+                )
+            }
         }
 
     override suspend fun recent(page: Int): List<ItemModel> {
         val f = client.get("$baseUrl/series-ranking/?rank=week&pg=$page")
-        val doc = f.body<Document>()
+        //val doc = f.body<Document>()
+        val doc = Jsoup.parse(f.bodyAsText())
         return doc
             .select("div.search_main_box_nu")
             .map {
@@ -42,7 +52,8 @@ class NovelUpdates : ApiService {
 
     override suspend fun allList(page: Int): List<ItemModel> {
         val f = client.get("$baseUrl/series-ranking/?rank=popular&pg=$page")
-        val doc = f.body<Document>()
+        //val doc = f.body<Document>()
+        val doc = Jsoup.parse(f.bodyAsText())
         return doc
             .select("div.search_main_box_nu")
             .map {
@@ -62,7 +73,8 @@ class NovelUpdates : ApiService {
         list: List<ItemModel>
     ): List<ItemModel> {
         val f = client.get("$baseUrl/page/$page/?s=$searchText&post_type=seriesplans")
-        val doc = f.body<Document>()
+        //val doc = f.body<Document>()
+        val doc = Jsoup.parse(f.bodyAsText())
         return doc
             .select("div.search_main_box_nu")
             .map {
@@ -78,7 +90,8 @@ class NovelUpdates : ApiService {
 
     override suspend fun sourceByUrl(url: String): ItemModel {
         val f = client.get(url)
-        val doc = f.body<Document>()
+        //val doc = f.body<Document>()
+        val doc = Jsoup.parse(f.bodyAsText())
         return ItemModel(
             title = doc.select(".seriestitlenu").text(),
             description = doc.select("#editdescription p").text(),
@@ -90,7 +103,8 @@ class NovelUpdates : ApiService {
 
     override suspend fun itemInfo(model: ItemModel): InfoModel {
         val f = client.get(model.url)
-        val doc = f.body<Document>()
+        //val doc = f.body<Document>()
+        val doc = Jsoup.parse(f.bodyAsText())
         val bookId = doc.select("#mypostid").attr("value")
         val chapters = client.submitForm(
             url = "$baseUrl/wp-admin/admin-ajax.php",
@@ -99,8 +113,18 @@ class NovelUpdates : ApiService {
                 append("mygrr", "0")
                 append("mypostid", bookId)
             }
-        )
-            .body<Document>()
+        ) {
+            headers {
+                append(
+                    "User-Agent",
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36"
+                )
+                append(HttpHeaders.CacheControl, "max-age=0")
+            }
+        }
+            .bodyAsText()
+            .let { Jsoup.parse(it) }
+            .also { println(it) }
             .select("li.sp_li_chp")
             .map {
                 ChapterModel(
@@ -125,7 +149,8 @@ class NovelUpdates : ApiService {
 
     override suspend fun chapterInfo(chapterModel: ChapterModel): List<Storage> {
         val f = client.get(chapterModel.url)
-        val doc = f.body<Document>()
+        //val doc = f.body<Document>()
+        val doc = Jsoup.parse(f.bodyAsText())
         val d = doc.select("p").html()
         return listOf(Storage(link = d.replace("</span>", "</span><br><br>")))
     }
