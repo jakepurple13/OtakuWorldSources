@@ -176,7 +176,9 @@ class SourceLoader : KoinComponent {
                 }
 
                 override suspend fun chapterInfo(chapterModel: ChapterModel): List<Storage> {
-                    val s = chapterModel.otherExtras.retrieveSEpisode()
+                    val s = chapterModel.otherExtras.retrieveSEpisode().apply {
+                        if (url.isBlank() || url == "null") url = chapterModel.url
+                    }
                     return t.fetchVideoList(s)
                         .toBlocking()
                         .first()
