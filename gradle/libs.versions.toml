@@ -75,7 +75,7 @@ sqlite-framework = { module = "androidx.sqlite:sqlite-framework", version.ref = 
 sqlite-ktx = { module = "androidx.sqlite:sqlite-ktx", version.ref = "sqlite" }
 sqlite-android = "com.github.requery:sqlite-android:3.42.0"
 
-preferencektx = "androidx.preference:preference-ktx:1.2.0"
+preferencektx = "androidx.preference:preference-ktx:1.2.1"
 
 subsamplingscaleimageview = "com.github.tachiyomiorg:subsampling-scale-image-view:c8e2650"
 image-decoder = "com.github.tachiyomiorg:image-decoder:7879b45"
