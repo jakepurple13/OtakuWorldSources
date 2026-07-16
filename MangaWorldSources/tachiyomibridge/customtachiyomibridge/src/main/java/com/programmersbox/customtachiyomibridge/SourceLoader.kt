@@ -173,7 +173,9 @@ class SourceLoader : KoinComponent {
                 }
 
                 override suspend fun chapterInfo(chapterModel: ChapterModel): List<Storage> {
-                    val s = chapterModel.otherExtras.retrieveSChapter()
+                    val s = chapterModel.otherExtras.retrieveSChapter().apply {
+                        if (url.isBlank() || url == "null") url = chapterModel.url
+                    }
                     return t.getPageList(s)
                         .map {
                             Storage(
