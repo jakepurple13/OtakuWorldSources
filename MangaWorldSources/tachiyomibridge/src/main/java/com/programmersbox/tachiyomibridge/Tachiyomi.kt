@@ -45,6 +45,7 @@ object Tachiyomi : ExternalApiServicesCatalog {
                     addSingletonFactory {
                         NetworkPreferences(
                             preferenceStore = get(),
+                            context = app,
                             verboseLogging = false,
                         )
                     }
